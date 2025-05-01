@@ -10,14 +10,15 @@
     <h2 class="heading">Current Weather</h2>
     <p class="location">Location : </p>
     <div>
-        <label for="SelectLocation" class="locationOptions">Choose Location</label>
+        <label for="SelectCountry" class="locationOptions">Choose Country </label>
+        <select id="selCountry">
+            <option disabled selected> Select Country</option>
+        </select>
+        
+        <label for="SelectLocation" class="locationOptions">Choose city</label>
         <select id="selectLocation">
-            <option value="Lahore">Lahore</option>
-            <option value="Skardu">Skardu</option>
-            <option value="London">London</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Dubai">Dubai</option>
-            <option value="New York">New York</option>
+            <option disabled selected>Select city</option>
+            
         </select>
     </div>
     <div>
@@ -25,7 +26,7 @@
        <p id="temp-value" class="temp"></p> 
        <br>
        <p>Feels-like:</p>
-       <p id="feelsLike-value" class="feelsLike">35*C</p> 
+       <p id="feelsLike-value" class="feelsLike"></p> 
        <br>
 
 
