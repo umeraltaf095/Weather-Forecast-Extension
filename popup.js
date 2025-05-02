@@ -2,7 +2,7 @@
 const locate = document.getElementById("selectLocation");
 const tem = document.getElementById("temp-value");
 const feelsLike = document.getElementById("feelsLike-value")
-const country = document.getElementById("selCountry");
+const country = document.getElementById("selectCountry");
 const humidity = document.getElementById("humidity-value");
 const windSpeed = document.getElementById("windSpeed-value");
 const clouds = document.getElementById("clouds-value");
@@ -10,19 +10,31 @@ const minTemp = document.getElementById("minTemp-value");
 const maxTemp = document.getElementById("maxTemp-value");
 const clesiusBtn = document.getElementById("celsius");
 const fahrenheit = document.getElementById("fahrenheit");
+const currentLocation = document.getElementById("currentLocation");
 let unit = 'metric' ;
+let isSwitch = true;
+
 
 clesiusBtn.addEventListener('click',()=>{
   console.log("Button clicked");
   unit = 'metric';
+  if(isSwitch){
   getWeather();
-
+  }
+  else {
+    navigator.geolocation.getCurrentPosition(getPosition);
+  }
   
 })
 
 fahrenheit.addEventListener('click', ()=>{
   unit = 'imperial';
+  if(isSwitch){
   getWeather();
+  }
+  else{
+    navigator.geolocation.getCurrentPosition(getPosition);
+  }
 })
 
 function getWeather(){
@@ -75,6 +87,7 @@ fetch('./data/countries.json')
   .catch(error => ('Error fetching data', error));
 
   country.addEventListener('change', ()=>{
+    isSwitch = true ;
     console.log("Current country is " , country.value);
     locate.innerHTML = '<option disabled selected >Select City</option>'
     fetch('./data/countries.json')
@@ -98,6 +111,52 @@ fetch('./data/countries.json')
 
 
 
+currentLocation.addEventListener('click', ()=>{
+  isSwitch = false;
+  navigator.geolocation.getCurrentPosition(getPosition);
+})
+
+
+function getPosition(position){
+  
+
+  console.log(position.coords.longitude);
+  const longitude = position.coords.longitude;
+  const latitude = position.coords.latitude;
+  console.log(longitude, latitude);
+  fetch(`https://nominatim.openstreetmap.org/reverse?lat=31.5497&lon=74.3436&format=json&accept-language=en`)
+  .then(response =>response.json())
+  .then(data =>{
+    console.log(data);
+    const city = data.address.city;
+
+
+   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2909ba420cd66f3878854604c3d0a67a&units=${unit}`)
+.then(response => response.json())
+.then(data=> {
+    console.log(data)
+    console.log(data.main.temp);
+    tem.textContent = data.main.temp;
+    feelsLike.textContent = data.main.feels_like;
+    humidity.textContent = data.main.humidity;
+    windSpeed.textContent = data.wind.speed;
+    clouds.textContent = data.clouds.all;
+    minTemp.textContent = data.main.temp_min;
+    maxTemp.textContent = data.main.temp_max;
+
+
+    
+})
+.catch(error => console.error('Error:', error));
+    
+
+    
+    
+  })
+  .catch(error=>console.log('error', error));
+  
+
+}
 
 
 

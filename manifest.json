@@ -3,7 +3,7 @@
     "name": "Weather Forecast",
     "version": "1.0",
     "description": "This extension will show a temperature according to a City",
-    "permissions": ["scripting" , "activeTab"],
+    "permissions": ["scripting" , "activeTab", "geolocation"],
     "host_permissions": ["https://api.openweathermap.org/*"],
 
   
