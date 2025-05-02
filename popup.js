@@ -119,19 +119,12 @@ currentLocation.addEventListener('click', ()=>{
 
 function getPosition(position){
   
-
-  console.log(position.coords.longitude);
   const longitude = position.coords.longitude;
   const latitude = position.coords.latitude;
   console.log(longitude, latitude);
-  fetch(`https://nominatim.openstreetmap.org/reverse?lat=31.5497&lon=74.3436&format=json&accept-language=en`)
-  .then(response =>response.json())
-  .then(data =>{
-    console.log(data);
-    const city = data.address.city;
-
-
-   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2909ba420cd66f3878854604c3d0a67a&units=${unit}`)
+ 
+    
+fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=2909ba420cd66f3878854604c3d0a67a&units=${unit}`)
 .then(response => response.json())
 .then(data=> {
     console.log(data)
@@ -148,15 +141,16 @@ function getPosition(position){
     
 })
 .catch(error => console.error('Error:', error));
+}
     
 
     
     
-  })
-  .catch(error=>console.log('error', error));
+  
+ 
   
 
-}
+
 
 
 
